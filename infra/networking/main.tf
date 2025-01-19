@@ -4,8 +4,12 @@ variable "cidr_public_subnet" {}
 variable "us_availability_zone" {}
 variable "cidr_private_subnet" {}
 
+output "vpc_1_id" {
+  value = aws_vpc.vpc_1_us_east_1.id
+}
+
 # Setup VPC
-resource "aws_vpc" "dev_proj_1_vpc_us_east_1" {
+resource "aws_vpc" "vpc_1_us_east_1" {
   cidr_block = var.vpc_cidr
   tags = {
     Name = var.vpc_name
@@ -13,68 +17,68 @@ resource "aws_vpc" "dev_proj_1_vpc_us_east_1" {
 }
 
 # Setup public subnet
-resource "aws_subnet" "dev_proj_1_public_subnets" {
+resource "aws_subnet" "public_subnets_1" {
   count             = length(var.cidr_public_subnet)
-  vpc_id            = aws_vpc.dev_proj_1_vpc_us_east_1.id
+  vpc_id            = aws_vpc.vpc_1_us_east_1.id
   cidr_block        = element(var.cidr_public_subnet, count.index)
   availability_zone = element(var.us_availability_zone, count.index)
 
   tags = {
-    Name = "dev-proj-public-subnet-${count.index + 1}"
+    Name = "public-subnet-${count.index + 1}"
   }
 }
 
 # Setup private subnet
-resource "aws_subnet" "dev_proj_1_private_subnets" {
+resource "aws_subnet" "private_subnets_1" {
   count             = length(var.cidr_private_subnet)
-  vpc_id            = aws_vpc.dev_proj_1_vpc_us_east_1.id
+  vpc_id            = aws_vpc.vpc_1_us_east_1.id
   cidr_block        = element(var.cidr_private_subnet, count.index)
   availability_zone = element(var.us_availability_zone, count.index)
 
   tags = {
-    Name = "dev-proj-private-subnet-${count.index + 1}"
+    Name = "private-subnet-${count.index + 1}"
   }
 }
 
 # Setup Internet Gateway
-resource "aws_internet_gateway" "dev_proj_1_public_internet_gateway" {
-  vpc_id = aws_vpc.dev_proj_1_vpc_us_east_1.id
+resource "aws_internet_gateway" "public_internet_gateway_1" {
+  vpc_id = aws_vpc.vpc_1_us_east_1.id
   tags = {
-    Name = "dev-proj-1-igw"
+    Name = "internet-gateway-1"
   }
 }
 
 # Public Route Table
-resource "aws_route_table" "dev_proj_1_public_route_table" {
-  vpc_id = aws_vpc.dev_proj_1_vpc_us_east_1.id
+resource "aws_route_table" "public_route_table_1" {
+  vpc_id = aws_vpc.vpc_1_us_east_1.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.dev_proj_1_public_internet_gateway.id
+    gateway_id = aws_internet_gateway.public_internet_gateway_1.id
   }
   tags = {
-    Name = "dev-proj-1-public-rt"
+    Name = "public-route-table-1"
   }
 }
 
 # Public Route Table and Public Subnet Association
-resource "aws_route_table_association" "dev_proj_1_public_rt_subnet_association" {
-  count          = length(aws_subnet.dev_proj_1_public_subnets)
-  subnet_id      = aws_subnet.dev_proj_1_public_subnets[count.index].id
-  route_table_id = aws_route_table.dev_proj_1_public_route_table.id
+resource "aws_route_table_association" "public_rt_subnet_association_1" {
+  count          = length(aws_subnet.public_subnets_1)
+  subnet_id      = aws_subnet.public_subnets_1[count.index].id
+  route_table_id = aws_route_table.public_route_table_1.id
 }
 
 # Private Route Table
-resource "aws_route_table" "dev_proj_1_private_subnets" {
-  vpc_id = aws_vpc.dev_proj_1_vpc_us_east_1.id
+resource "aws_route_table" "private_route_table_1" {
+  vpc_id = aws_vpc.vpc_1_us_east_1.id
   #depends_on = [aws_nat_gateway.nat_gateway]
   tags = {
-    Name = "dev-proj-1-private-rt"
+    Name = "private-route-table-1"
   }
 }
 
 # Private Route Table and private Subnet Association
-resource "aws_route_table_association" "dev_proj_1_private_rt_subnet_association" {
-  count          = length(aws_subnet.dev_proj_1_private_subnets)
-  subnet_id      = aws_subnet.dev_proj_1_private_subnets[count.index].id
-  route_table_id = aws_route_table.dev_proj_1_private_subnets.id
+resource "aws_route_table_association" "private_rt_subnet_association_1" {
+  count          = length(aws_subnet.private_subnets_1)
+  subnet_id      = aws_subnet.private_subnets_1[count.index].id
+  route_table_id = aws_route_table.private_route_table_1.id
 }

@@ -9,10 +9,14 @@ variable "user_data_install_apache" {}
 variable "ec2_sg_name_for_python_api" {}
 
 output "ssh_connection_string_for_ec2" {
-  value = format("%s%s", "ssh -i /Users/janvandenhouten/.ssh/simpleTerraformAWSProjKey ec2-user@", aws_instance.dev_proj_1_ec2.public_ip)
+  value = format("%s%s", "ssh -i /Users/janvandenhouten/.ssh/simpleTerraformAWSProjKey ec2-user@", aws_instance.ec2_1.public_ip)
 }
 
-resource "aws_instance" "dev_proj_1_ec2" {
+output "ec2_instance_id" {
+  value = aws_instance.ec2_1.id
+}
+
+resource "aws_instance" "ec2_1" {
   ami           = var.ami_id
   instance_type = var.instance_type
   tags = {
@@ -31,7 +35,7 @@ resource "aws_instance" "dev_proj_1_ec2" {
   }
 }
 
-resource "aws_key_pair" "dev_proj_1_public_key" {
+resource "aws_key_pair" "public_key_1" {
   key_name   = "simpleTerraformAWSProjKey"
   public_key = var.public_key
 }

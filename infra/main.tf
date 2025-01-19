@@ -27,3 +27,12 @@ module "ec2" {
   user_data_install_apache = templatefile(var.ec2_user_data_install, {})
 }
 
+module "lb_target_group" {
+  source                   = "./load-balancer-target-group"
+  lb_target_group_name     = "lb-target-group-1"
+  lb_target_group_port     = 5000
+  lb_target_group_protocol = "HTTP"
+  vpc_id                   = module.networking.vpc_1_id
+  ec2_instance_id          = module.ec2.ec2_instance_id
+}
+

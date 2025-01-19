@@ -1,5 +1,14 @@
 variable "ec2_sg_name" {}
 variable "vpc_id" {}
+variable "ec2_sg_name_for_python_api" {}
+
+output "sg_ec2_sg_ssh_http_id" {
+  value = aws_security_group.ec2_sg_ssh_http.id
+}
+
+output "sg_ec2_for_python_api" {
+  value = aws_security_group.ec2_sg_python_api.id
+}
 
 resource "aws_security_group" "ec2_sg_ssh_http" {
   name        = var.ec2_sg_name
@@ -44,5 +53,23 @@ resource "aws_security_group" "ec2_sg_ssh_http" {
 
   tags = {
     Name = "Security Groups to allow SSH(22) and HTTP(80) and HTTPS(443)"
+  }
+}
+
+resource "aws_security_group" "ec2_sg_python_api" {
+  name        = var.ec2_sg_name_for_python_api
+  description = "Enable the Port 5000 for python api"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow traffic on port 5000"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+  }
+
+  tags = {
+    Name = "Security Groups to allow traffic on port 5000"
   }
 }

@@ -26,6 +26,10 @@ jobs:
         id: init
         run: terraform init
         working-directory: ./infra
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy --auto-approve
+        working-directory: ./infra
       - name: Terraform Validate
         id: validate
         run: terraform validate

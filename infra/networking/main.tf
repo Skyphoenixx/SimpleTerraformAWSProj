@@ -8,6 +8,10 @@ output "vpc_1_id" {
   value = aws_vpc.vpc_1_us_east_1.id
 }
 
+output "public_subnets_1" {
+  value = aws_subnet.public_subnets_1.*.id
+}
+
 # Setup VPC
 resource "aws_vpc" "vpc_1_us_east_1" {
   cidr_block = var.vpc_cidr

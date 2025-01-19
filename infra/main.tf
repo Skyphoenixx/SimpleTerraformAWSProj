@@ -71,11 +71,11 @@ module "aws_certification_manager" {
 
 module "rds_db_instance" {
   source               = "./rds"
-  db_subnet_group_name = "dev_proj_1_rds_subnet_group"
+  db_subnet_group_name = "rds_subnet_group"
   subnet_groups        = tolist(module.networking.public_subnets_1)
   rds_mysql_sg_id      = module.security_group.rds_mysql_sg_id
   mysql_db_identifier  = "mydb"
   mysql_username       = "dbuser"
   mysql_password       = "dbpassword"
-  mysql_dbname         = "devprojdb"
+  mysql_dbname         = "flaskdb"
 }

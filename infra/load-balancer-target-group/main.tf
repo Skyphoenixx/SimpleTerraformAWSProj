@@ -4,6 +4,10 @@ variable "lb_target_group_protocol" {}
 variable "vpc_id" {}
 variable "ec2_instance_id" {}
 
+output "lb_target_group_arn" {
+  value = aws_lb_target_group.lb_target_group_1.arn
+}
+
 resource "aws_lb_target_group" "lb_target_group_1" {
   name     = var.lb_target_group_name
   port     = var.lb_target_group_port

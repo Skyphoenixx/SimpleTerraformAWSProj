@@ -37,3 +37,8 @@ variable "ec2_user_data_install" {
   type = string
   description = "Script for installing the Python Flask API"
 }
+
+variable "domain_name" {
+  type = string
+  description = "Name of the domain"
+}

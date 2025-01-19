@@ -12,6 +12,7 @@ module "security_group" {
   ec2_sg_name = "SG for EC2 to enable SSH(22) and HTTP(80)"
   vpc_id      = module.networking.vpc_1_id
   ec2_sg_name_for_python_api = "SG for EC2 for enabling port 5000"
+  public_subnet_cidr_block   = tolist(module.networking.public_subnet_cidr_block)
 }
 
 module "ec2" {
@@ -68,3 +69,13 @@ module "aws_certification_manager" {
   hosted_zone_id = module.hosted_zone.hosted_zone_id
 }
 
+module "rds_db_instance" {
+  source               = "./rds"
+  db_subnet_group_name = "dev_proj_1_rds_subnet_group"
+  subnet_groups        = tolist(module.networking.public_subnets_1)
+  rds_mysql_sg_id      = module.security_group.rds_mysql_sg_id
+  mysql_db_identifier  = "mydb"
+  mysql_username       = "dbuser"
+  mysql_password       = "dbpassword"
+  mysql_dbname         = "devprojdb"
+}

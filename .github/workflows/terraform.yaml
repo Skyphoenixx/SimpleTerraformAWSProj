@@ -18,7 +18,8 @@ jobs:
   terraform-destroy:
     name: Destroy Terraform Resources
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.action == 'destroy' || github.event.inputs.action == 'full_pipeline' }}
+    # Run when the action is 'destroy', 'full_pipeline', or for automatic triggers
+    if: ${{ github.event.inputs.action == 'destroy' || github.event.inputs.action == 'full_pipeline' || github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
       - name: Checkout Terraform Repository
         uses: actions/checkout@v3
@@ -46,7 +47,8 @@ jobs:
     name: Apply Terraform Resources
     needs: terraform-destroy
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.action == 'full_pipeline' }}
+    # Only run for 'full_pipeline' or automatic triggers
+    if: ${{ github.event.inputs.action == 'full_pipeline' || github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
       - name: Checkout Terraform Repository
         uses: actions/checkout@v3
@@ -74,7 +76,8 @@ jobs:
     name: Run Python Tests
     needs: terraform-apply
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.action == 'full_pipeline' }}
+    # Only run for 'full_pipeline' or automatic triggers
+    if: ${{ github.event.inputs.action == 'full_pipeline' || github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
       - name: Checkout Python Repository
         uses: actions/checkout@v3
@@ -103,7 +106,8 @@ jobs:
     name: SonarCloud Analysis
     needs: python-tests
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.action == 'full_pipeline' }}
+    # Only run for 'full_pipeline' or automatic triggers
+    if: ${{ github.event.inputs.action == 'full_pipeline' || github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
       - name: Checkout Python Repository
         uses: actions/checkout@v3
@@ -121,4 +125,3 @@ jobs:
           args: >
             -Dsonar.organization=skyphoenixx
             -Dsonar.projectKey=Skyphoenixx_PythonFlaskApi
-

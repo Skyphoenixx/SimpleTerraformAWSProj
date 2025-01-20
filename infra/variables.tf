@@ -1,3 +1,18 @@
+variable "bucket_name" {
+  type        = string
+  description = "Remote state bucket name"
+}
+
+variable "name" {
+  type        = string
+  description = "Tag name"
+}
+
+variable "environment" {
+  type        = string
+  description = "Environment name"
+}
+
 variable "vpc_name" {
   type        = string
   description = "SimpleTerraformAWSProj VPC 1"

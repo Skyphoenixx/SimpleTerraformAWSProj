@@ -1,3 +1,7 @@
+bucket_name = "remote-state-bucket-2"
+name        = "environment"
+environment = "remote-state-bucket-2"
+
 vpc_cidr             = "10.0.0.0/16"
 vpc_name             = "us-east-vpc-1"
 cidr_public_subnet   = ["10.0.1.0/24", "10.0.2.0/24"]

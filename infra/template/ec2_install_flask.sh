@@ -22,5 +22,6 @@ sleep 10
 echo 'Waiting for 30 seconds before running app.py'
 
 # Run the application
-python3 -u app.py
+cd app_package
+python3 -u application.py
 sleep 30

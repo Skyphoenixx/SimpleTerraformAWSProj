@@ -23,7 +23,7 @@ jobs:
       - name: Checkout Terraform Repository
         uses: actions/checkout@v3
         with:
-          repository: your-username/terraform-repo
+          repository: Skyphoenixx/SimpleTerraformAWSProj
           token: ${{ secrets.GIT_TOKEN }}
           path: terraform-repo
 
@@ -51,7 +51,7 @@ jobs:
       - name: Checkout Terraform Repository
         uses: actions/checkout@v3
         with:
-          repository: your-username/terraform-repo
+          repository: Skyphoenixx/SimpleTerraformAWSProj
           token: ${{ secrets.GIT_TOKEN }}
           path: terraform-repo
 
@@ -79,7 +79,7 @@ jobs:
       - name: Checkout Python Repository
         uses: actions/checkout@v3
         with:
-          repository: your-username/python-repo
+          repository: Skyphoenixx/PythonFlaskApi
           token: ${{ secrets.GIT_TOKEN }}
           path: python-repo
 
@@ -108,7 +108,7 @@ jobs:
       - name: Checkout Python Repository
         uses: actions/checkout@v3
         with:
-          repository: your-username/python-repo
+          repository: Skyphoenixx/PythonFlaskApi
           token: ${{ secrets.GIT_TOKEN }}
           path: python-repo
 

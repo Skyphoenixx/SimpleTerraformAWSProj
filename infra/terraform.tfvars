@@ -1,6 +1,6 @@
-bucket_name = "remote-state-bucket-1"
+bucket_name = "remote-state-bucket-2"
 name        = "environment"
-environment = "remote-state-bucket-1"
+environment = "remote-state-bucket-2"
 
 vpc_cidr             = "10.0.0.0/16"
 vpc_name             = "us-east-vpc-1"

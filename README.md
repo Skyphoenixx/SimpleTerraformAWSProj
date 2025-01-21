@@ -77,6 +77,3 @@ This project integrates with a CI/CD pipeline using GitHub Actions. The pipeline
     - Applies the Terraform infrastructure.
     - Tests the Python project in [`PythonFlaskApi`](https://github.com/Skyphoenixx/PythonFlaskApi).
     - Conducts code quality analysis with SonarCloud.
-
-For manual CI/CD triggers, navigate to the **Actions** tab in GitHub and select the relevant workflow.
-

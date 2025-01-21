@@ -9,6 +9,7 @@ This Terraform project provisions an AWS infrastructure to support a Flask API c
 - [Usage](#usage)
 - [Outputs](#outputs)
 - [CI/CD Integration](#cicd-integration)
+- [Infrastructure Diagram](#infrastructure-diagram)
 
 ## Purpose
 This project sets up an AWS environment with the following:
@@ -77,3 +78,7 @@ This project integrates with a CI/CD pipeline using GitHub Actions. The pipeline
     - Applies the Terraform infrastructure.
     - Tests the Python project in [`PythonFlaskApi`](https://github.com/Skyphoenixx/PythonFlaskApi).
     - Conducts code quality analysis with SonarCloud.
+
+## Infrastructure Diagram
+The following diagram illustrates the infrastructure deployed by this project:
+![TerraformAWSInfrastructure.png](TerraformAWSInfrastructure.png)

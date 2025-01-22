@@ -14,6 +14,12 @@ sleep 20
 # Navigate to the cloned repository directory
 cd PythonFlaskApi
 
+# Inject the RDS endpoint into the environment
+export DB_HOST="${rds_endpoint}"
+export DB_USER="${rds_username}"
+export DB_PASSWORD="${rds_password}"
+export DB_NAME="${rds_dbname}"
+
 # Install dependencies from requirements.txt
 pip3 install -r requirements.txt
 

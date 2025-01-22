@@ -48,12 +48,22 @@ variable "ec2_ami_id" {
   description = "AMI Id for EC2 Amazon Linux instance"
 }
 
-variable "ec2_user_data_install" {
-  type = string
-  description = "Script for installing the Python Flask API"
-}
-
 variable "domain_name" {
   type = string
   description = "Name of the domain"
+}
+
+variable "mysql_username" {
+    type = string
+    description = "Username for the RDS MySQL database"
+}
+
+variable "mysql_password" {
+    type = string
+    description = "Password for the RDS MySQL database"
+}
+
+variable "mysql_dbname" {
+    type = string
+    description = "Name of the RDS MySQL database"
 }

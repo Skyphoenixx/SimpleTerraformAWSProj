@@ -22,6 +22,17 @@ module "security_group" {
   public_subnet_cidr_block   = tolist(module.networking.public_subnet_cidr_block)
 }
 
+module "rds_db_instance" {
+  source               = "./rds"
+  db_subnet_group_name = "rds_subnet_group"
+  subnet_groups        = tolist(module.networking.public_subnets_1)
+  rds_mysql_sg_id      = module.security_group.rds_mysql_sg_id
+  mysql_db_identifier  = "mydb"
+  mysql_username       = var.mysql_username
+  mysql_password       = var.mysql_password
+  mysql_dbname         = var.mysql_dbname
+}
+
 module "ec2" {
   source                   = "./ec2"
   ami_id                   = var.ec2_ami_id
@@ -32,7 +43,12 @@ module "ec2" {
   sg_enable_ssh_https      = module.security_group.sg_ec2_sg_ssh_http_id
   ec2_sg_name_for_python_api     = module.security_group.sg_ec2_for_python_api
   enable_public_ip_address = true
-  user_data_install_apache = templatefile(var.ec2_user_data_install, {})
+  user_data_install_apache = templatefile("${path.module}/template/ec2_install_flask.sh", {
+    rds_endpoint = module.rds_db_instance.rds_endpoint
+    rds_username = var.mysql_username
+    rds_password = var.mysql_password
+    rds_dbname   = var.mysql_dbname
+  })
 }
 
 module "lb_target_group" {
@@ -74,15 +90,4 @@ module "aws_certification_manager" {
   source         = "./certificate-manager"
   domain_name    = var.domain_name
   hosted_zone_id = module.hosted_zone.hosted_zone_id
-}
-
-module "rds_db_instance" {
-  source               = "./rds"
-  db_subnet_group_name = "rds_subnet_group"
-  subnet_groups        = tolist(module.networking.public_subnets_1)
-  rds_mysql_sg_id      = module.security_group.rds_mysql_sg_id
-  mysql_db_identifier  = "mydb"
-  mysql_username       = "dbuser"
-  mysql_password       = "dbpassword"
-  mysql_dbname         = "flaskdb"
 }

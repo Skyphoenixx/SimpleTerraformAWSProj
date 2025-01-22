@@ -8,6 +8,10 @@ variable "enable_public_ip_address" {}
 variable "user_data_install_apache" {}
 variable "ec2_sg_name_for_python_api" {}
 
+output "ec2_instance_public_ip" {
+  value = aws_instance.ec2_1.public_ip
+}
+
 output "ssh_connection_string_for_ec2" {
   value = format("%s%s", "ssh -i /Users/janvandenhouten/.ssh/simpleTerraformAWSProjKey ec2-user@", aws_instance.ec2_1.public_ip)
 }

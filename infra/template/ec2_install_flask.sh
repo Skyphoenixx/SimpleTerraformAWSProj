@@ -14,13 +14,20 @@ sleep 20
 # Navigate to the cloned repository directory
 cd PythonFlaskApi
 
-# Set environment variables
-echo "export DB_HOST=${rds_endpoint}" >> /etc/environment
-echo "export DB_USER=${rds_username}" >> /etc/environment
-echo "export DB_PASSWORD=${rds_password}" >> /etc/environment
-echo "export DB_NAME=${rds_dbname}" >> /etc/environment
+# Set environment variables for Flask app
+cat <<EOF | sudo tee -a /etc/environment
+DB_HOST=${rds_endpoint}
+DB_USER=${rds_username}
+DB_PASSWORD=${rds_password}
+DB_NAME=${rds_dbname}
+EOF
 
-# Load environment variables for the current session
+# Export variables for the current session
+export DB_HOST=${rds_endpoint}
+export DB_USER=${rds_username}
+export DB_PASSWORD=${rds_password}
+export DB_NAME=${rds_dbname}
+
 source /etc/environment
 
 # Install dependencies from requirements.txt

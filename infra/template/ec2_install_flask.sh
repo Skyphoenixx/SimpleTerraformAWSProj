@@ -14,11 +14,21 @@ sleep 20
 # Navigate to the cloned repository directory
 cd PythonFlaskApi
 
-# Inject the RDS endpoint into the environment
-export DB_HOST="${rds_endpoint}"
-export DB_USER="${rds_username}"
-export DB_PASSWORD="${rds_password}"
-export DB_NAME="${rds_dbname}"
+# Set environment variables for Flask app
+cat <<EOF | sudo tee -a /etc/environment
+DB_HOST=${rds_endpoint}
+DB_USER=${rds_username}
+DB_PASSWORD=${rds_password}
+DB_NAME=${rds_dbname}
+EOF
+
+# Export variables for the current session
+export DB_HOST=${rds_endpoint}
+export DB_USER=${rds_username}
+export DB_PASSWORD=${rds_password}
+export DB_NAME=${rds_dbname}
+
+source /etc/environment
 
 # Install dependencies from requirements.txt
 pip3 install -r requirements.txt
@@ -29,5 +39,5 @@ echo 'Waiting for 30 seconds before running app.py'
 
 # Run the application
 cd app_package
-python3 -u application.py
+python3 -u application.py > /var/log/flask_app.log 2>&1 &
 sleep 30

@@ -12,6 +12,10 @@ output "public_subnets_1" {
   value = aws_subnet.public_subnets_1.*.id
 }
 
+output "private_subnets_1" {
+  value = aws_subnet.private_subnets_1.*.id
+}
+
 output "public_subnet_cidr_block" {
   value = aws_subnet.public_subnets_1.*.cidr_block
 }
@@ -19,6 +23,8 @@ output "public_subnet_cidr_block" {
 # Setup VPC
 resource "aws_vpc" "vpc_1_us_east_1" {
   cidr_block = var.vpc_cidr
+  enable_dns_support = true
+  enable_dns_hostnames = true
   tags = {
     Name = var.vpc_name
   }

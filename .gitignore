@@ -2,3 +2,10 @@
 /infra/terraform.tfstate
 /infra/terraform.tfstate.backup
 /infra/.terraform/
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/SimpleTerraformAWSProj.iml
+/.idea/templateLanguages.xml
+/.idea/vcs.xml
+/.idea/.gitignore
